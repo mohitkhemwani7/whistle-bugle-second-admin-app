@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './login.css'
 import {auth} from '../../firebase'
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import {useNavigate, Navigate} from 'react-router-dom'
 import {useState} from "react";
 import {Nav} from "react-bootstrap";
-
+import {AuthContext} from "../../context/AuthContext";
 
 
 function Login() {
@@ -15,6 +15,7 @@ function Login() {
     const navigate = useNavigate();
     const submitted = useState(true);
 
+    const {dispatch} = useContext(AuthContext);
 
 
 
@@ -26,6 +27,7 @@ function Login() {
                 const user = userCredential.user;
                 console.log(user);
                 //history.push('/main');
+                dispatch({type:"LOGIN", payload: user});
                 navigate('/main');
             })
             .catch((error) => {
