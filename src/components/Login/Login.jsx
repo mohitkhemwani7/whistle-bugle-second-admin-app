@@ -14,6 +14,7 @@ function Login() {
     const error = useState(null);
     const navigate = useNavigate();
     const submitted = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const {dispatch} = useContext(AuthContext);
 
@@ -21,6 +22,7 @@ function Login() {
 
     const handleLogin = (e) =>{
         e.preventDefault();
+        setLoading(true);
         //const history = createBrowserHistory();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -28,26 +30,27 @@ function Login() {
                 console.log(user);
                 //history.push('/main');
                 dispatch({type:"LOGIN", payload: user});
+                setLoading(false);
                 navigate('/main');
             })
             .catch((error) => {
+                setLoading(false);
                 this.setState({error: error});
             });
     }
 
 
         return(
+            <div>
+            {loading ? (
+                    <div className="loader-container">
+                        <div className="spinner"></div>
+                    </div>
+                ) : (
             <>
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <h2 className="active"> Sign In </h2>
-                        {/*{error ? (*/}
-                        {/*    <Flex>*/}
-                        {/*        <Box>*/}
-                        {/*            <Text>{error.message}</Text>*/}
-                        {/*        </Box>*/}
-                        {/*    </Flex>*/}
-                        {/*) : null}*/}
                         <form name="form" onSubmit={handleLogin}>
                             <div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
                                 <label htmlFor="email">Email</label><br/>
@@ -55,32 +58,20 @@ function Login() {
                                        value={email} id="login"
                                        onChange={e=>setEmail(e.target.value)}
                                        />
-                                {/*{submitted && !email &&*/}
-                                {/*    <div className="help-block">Email is required</div>*/}
-                                {/*}*/}
                             </div>
                             <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
                                 <label htmlFor="password">Password</label>
                                 <input type="password" className="form-control fadeIn second" name="password"
                                        value={password} id="password"
                                        onChange={e=>setPassword(e.target.value)} />
-                                {/*{submitted && !password &&*/}
-                                {/*    <div className="help-block">Password is required</div>*/}
-                                {/*}*/}
+
                                 <input type="submit" className="fadeIn fourth" value="Log In"/>
                             </div>
-
-                            {/*<Container>*/}
-                            {/*    <Row>*/}
-                            {/*        <h5>Not a User?</h5>*/}
-                            {/*        <h5 > Register</h5>*/}
-                            {/*    </Row>*/}
-                            {/*</Container>*/}
-
                         </form>
                     </div>
                 </div>
-            </>
+            </>)}
+            </div>
         )
 }
 
