@@ -19,7 +19,10 @@ class LandingPage extends React.Component{
                             <h1><a href="/AddTeam" className="text-white">Add Team</a></h1>
                         </Col>
                         <Col sm className="bg-primary  mx-1">
-                            <h1><a href="/AddTeam" className="text-white">Add Team</a></h1>
+                            <h1><a href="/WhyUs" className="text-white">WhyUs</a></h1>
+                        </Col>
+                        <Col sm className="bg-primary  mx-1">
+                            <h1><a href="/Services" className="text-white">Services</a></h1>
                         </Col>
                     </Row>
                 </Container>

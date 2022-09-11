@@ -6,7 +6,7 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState} from "react";
 import {Nav} from "react-bootstrap";
 import {AuthContext} from "../../context/AuthContext";
-
+import '../Main/main.css';
 
 function Login() {
     const  [email, setEmail] = useState("");

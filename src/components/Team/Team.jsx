@@ -118,7 +118,6 @@ const Team = () => {
             <Header/>
             <div className="datatable">
                 <div className="datatableTitle">
-                    Add New User
                     <Link to="/AddTeam" className="link">
                         Add New
                     </Link>
@@ -129,7 +128,6 @@ const Team = () => {
                     columns={userColumns.concat(actionColumn)}
                     pageSize={9}
                     rowsPerPageOptions={[9]}
-
                 />
             </div>
         </>)}

@@ -1,17 +1,5 @@
 export const serviceColumns = [
     {
-        field: "Description",
-        headerName: "Description",
-        width: 140,
-        renderCell: (params) => {
-            return (
-                <div className="cellWithImg">
-                    <img className="cellImg" src={params.row.imgTeam} alt="avatar" />
-                </div>
-            );
-        },
-    },
-    {
         field: "Image",
         headerName: "Image",
         width: 150,
@@ -23,8 +11,8 @@ export const serviceColumns = [
         width: 150,
     },
     {
-        field: "Vector",
-        headerName: "Vector",
+        field: "Description",
+        headerName: "Description",
         width: 160,
     },
 

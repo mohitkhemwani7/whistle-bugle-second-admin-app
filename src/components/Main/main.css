@@ -3,7 +3,7 @@
     height: 100vh;
     position: fixed;
     background: gray
-    url("https://media.giphy.com/media/8agqybiK5LW8qrG3vJ/giphy.gif") center
+    url("../../Assets/blue_spinner.gif") center
     no-repeat;
     z-index: 1;
 }
