@@ -3,9 +3,13 @@ import {collection, deleteDoc, doc, getDocs} from "firebase/firestore";
 import {db} from "../../firebase";
 import Container from "react-bootstrap/Container";
 import {Col, Row} from "react-bootstrap";
+import Header from "../Header/Header";
+import {Link, useNavigate} from "react-router-dom";
+import {DataGrid} from "@mui/x-data-grid";
+import {serviceColumns} from "./servicetableSource";
 
 const Services = () => {
-
+    const navigate = useNavigate();
     const [info , setInfo] = useState([]);
     //const [lcollection , setLcollection] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -24,98 +28,75 @@ const Services = () => {
 
     }, [])
 
-    // const FetchCollection = async (id) => {
-    //     setLoading(true);
-    //     let collectionList = [];
-    //     const querySnapshot = await getDocs(collection(db, "services" + id + "SubServices"));
-    //     querySnapshot.forEach(doc => {
-    //         collectionList.push({id: doc.id, ...doc.data()});
-    //     });
-    //     setLcollection(collectionList);
-    //     setLoading(false);
-    // };
 
     const handleDelete = async (id) => {
         try {
-            await deleteDoc(doc(db, "whyus", id));
+            await deleteDoc(doc(db, "services", id));
             setInfo(info.filter((item) => item.id !== id));
         } catch (err) {
             console.log(err);
         }
     };
 
-    const handleUpdate = (id) => {
-        db.collection("users").doc(doc.id).update({foo: "bar"});
+    const handleUpdate = (data) => {
+        //db.collection("users").doc(doc.id).update({foo: "bar"});
+        navigate('/Services/Update', {state: data})
     }
+
+    const actionColumn = [
+        {
+            field: "action",
+            headerName: "Action",
+            width: 200,
+            renderCell: (params) => {
+                return (
+                    <div className="cellAction">
+                        {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
+                            <div className="viewButton"
+                                 onClick={()=> handleUpdate(params.row)}
+                            >Update</div>
+                        {/*</Link>*/}
+                        <div
+                            className="deleteButton"
+                            onClick={() => handleDelete(params.row.id)}
+                        >
+                            Delete
+                        </div>
+                    </div>
+                );
+            },
+        },
+    ];
+
 
         return (
         <div>
 
-            {
-                info.map((e) => (
-                    <Container >
-                        <Frame description={e.Description} imgSource={e.Image}
-                               name={e.Name} vector={e.Vector}
-                               />
-                    </Container>
-                ))
-            }
+            {loading ? (
+                <div className="loader-container">
+                    <div className="spinner"/>
+                </div>
+            ) : (
+
+                <>
+                    <Header/>
+                    <div className="datatable">
+                        <div className="datatableTitle">
+                            <Link to="/Services/Add" className="link">
+                                Add New
+                            </Link>
+                        </div>
+                        <DataGrid
+                            className="datagrid"
+                            rows={info}
+                            columns={serviceColumns.concat(actionColumn)}
+                            pageSize={9}
+                            rowsPerPageOptions={[9]}
+                        />
+                    </div>
+                </>)}
         </div>
 
-    );
-}
-
-const Frame = ({name , description, vector, imgSource}) => {
-    const [lcollection , setLcollection] = useState([]);
-
-    useEffect( ()=>{
-        const FetchCollection = async () => {
-            let list = [];
-            const querySnapshot = await getDocs(collection(db, "services/" + name + "/SubServices"));
-            querySnapshot.forEach(doc => {
-                list.push({id: doc.id, ...doc.data()});
-            });
-            setLcollection(list);
-        };
-        FetchCollection();
-
-    }, [])
-    return (
-        <div>
-            <Row xs="auto">
-                <Col>
-                    {imgSource}
-                </Col>
-                <Col>{name}</Col>
-                <Col>{description}</Col>
-                <Col>{vector}</Col>
-            </Row>
-            <div>
-                {
-                    lcollection.map((e) => (
-                        <Container>
-                            <SubServices description={e.Description} imgSource={e.Image}
-                                   name={e.Name}
-                            />
-                        </Container>
-                    ))
-                }
-            </div>
-        </div>
-
-    );
-}
-
-
-const SubServices = ({name , description, imgSource}) => {
-    return (
-        <Row xs="auto">
-            <Col>
-                {imgSource}
-            </Col>
-            <Col>{name}</Col>
-            <Col>{description}</Col>
-        </Row>
     );
 }
 

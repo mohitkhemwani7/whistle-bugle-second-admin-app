@@ -10,7 +10,6 @@ import './team.css';
 import {useNavigate, Navigate} from 'react-router-dom'
 
 const AddTeam =  () => {
-
     const  [name, setName] = useState("");
     const [post, setPost] = useState("");
     const [file, setFile] = useState({});

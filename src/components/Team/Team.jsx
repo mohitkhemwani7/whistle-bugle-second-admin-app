@@ -5,7 +5,7 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./team.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../datatableource";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Header from "../Header/Header";
 import '../Main/main.css';
 
@@ -68,7 +68,7 @@ const Team = () => {
 //             <Col>{linkedin}</Col>
 //         </Row>
 //     );
-
+    const navigate = useNavigate();
     const handleDelete = async (id) => {
         try {
             await deleteDoc(doc(db, "Team", id));
@@ -78,8 +78,9 @@ const Team = () => {
         }
     };
 
-    const handleUpdate = (id) => {
-        db.collection("users").doc(doc.id).update({foo: "bar"});
+    const handleUpdate = (data) => {
+        navigate('/UpdateTeam', {state: data})
+        //db.collection("users").doc(doc.id).update({foo: "bar"});
     }
 
     const actionColumn = [
@@ -91,9 +92,9 @@ const Team = () => {
                 return (
                     <div className="cellAction">
                         {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
-                        {/*    <div className="viewButton"*/}
-                        {/*         // onClick={()=> handleDelete(params.row.id)}*/}
-                        {/*    >Update</div>*/}
+                            <div className="viewButton"
+                                 onClick={()=> handleUpdate(params.row)}
+                            >Update</div>
                         {/*</Link>*/}
                         <div
                             className="deleteButton"
@@ -121,6 +122,9 @@ const Team = () => {
                     <Link to="/AddTeam" className="link">
                         Add New
                     </Link>
+                    {/*<div onClick={()=>{*/}
+                    {/*    navigate('/AddTeam');*/}
+                    {/*}}>Add Team</div>*/}
                 </div>
                 <DataGrid
                     className="datagrid"

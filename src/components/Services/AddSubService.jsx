@@ -1,15 +1,15 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {db, storage} from "../../firebase";
-import {addDoc, collection} from "firebase/firestore";
+import {addDoc, collection, doc, setDoc} from "firebase/firestore";
 import Header from "../Header/Header";
 import Container from "react-bootstrap/Container";
 import {Col, FloatingLabel, Form, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 
-const AddSubService =  (props) => {
-
+const AddSubService =  () => {
+    const location = useLocation();
     const  [name, setName] = useState("");
     const [imgSrc, setImgSrc] = useState({});
     const [description, setDescription] = useState("");
@@ -48,7 +48,7 @@ const AddSubService =  (props) => {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
                         setUrl(downloadURL);
-                        await addDoc(collection(db, "services/" + props.id + "SubServices"), {
+                        await setDoc(doc(db, "services/" + location.state + "/SubServices" , name), {
                             Name: name,
                             Description: description,
                             Image: downloadURL

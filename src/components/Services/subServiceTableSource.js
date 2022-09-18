@@ -1,4 +1,4 @@
-export const serviceColumns = [
+export const subServiceColumns = [
     {
         field: "Image",
         headerName: "Image",
@@ -14,11 +14,6 @@ export const serviceColumns = [
         field: "Description",
         headerName: "Description",
         width: 160,
-    },
-    {
-        field: "Vector",
-        headerName: "Vector",
-        width: 160,
-    },
+    }
 
 ];
