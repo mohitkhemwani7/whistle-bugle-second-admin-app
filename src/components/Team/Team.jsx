@@ -3,8 +3,12 @@ import {db} from '../../firebase';
 import { useState } from 'react';
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./team.css";
-import { DataGrid } from "@mui/x-data-grid";
+import  DataGrid  from "react-data-grid";
 import { userColumns } from "../../datatableource";
+import DataTable from "react-data-table-component";
+import 'react-data-grid/lib/styles.css';
+// import 'react-data-grid/lib'
+// import * as ReactDataGridPlugins from 'react-data-grid/addons';
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../Header/Header";
 import '../Main/main.css';
@@ -85,20 +89,20 @@ const Team = () => {
 
     const actionColumn = [
         {
-            field: "action",
-            headerName: "Action",
-            width: 200,
-            renderCell: (params) => {
+            //key: "action",
+            name: "Actions",
+            width: 10,
+            cell: (params) => {
                 return (
                     <div className="cellAction">
                         {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
                             <div className="viewButton"
-                                 onClick={()=> handleUpdate(params.row)}
+                                 onClick={()=> handleUpdate(params)}
                             >Update</div>
                         {/*</Link>*/}
                         <div
                             className="deleteButton"
-                            onClick={() => handleDelete(params.row.id)}
+                            onClick={() => handleDelete(params.id)}
                         >
                             Delete
                         </div>
@@ -126,12 +130,15 @@ const Team = () => {
                     {/*    navigate('/AddTeam');*/}
                     {/*}}>Add Team</div>*/}
                 </div>
-                <DataGrid
-                    className="datagrid"
-                    rows={info}
+                <DataTable
+                    //rowKeyGetter={(row) => row.id || ''}
+                    //className="datagrid"
+                    title="Team Members"
+                    data={info}
                     columns={userColumns.concat(actionColumn)}
-                    pageSize={9}
-                    rowsPerPageOptions={[9]}
+                    //pageSize={9}
+                    //rowsPerPageOptions={[9]}
+
                 />
             </div>
         </>)}

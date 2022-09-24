@@ -1,51 +1,51 @@
+import ReactDataGrid from "react-data-grid";
+
 export const userColumns = [
     {
-        field: "imgTeam",
-        headerName: "Image",
-        width: 140,
-        renderCell: (params) => {
-            return (
+        //selector: '<div className="cellWithImg"> <img className="cellImg" src="imgTeam" alt="avatar" /></div>',
+        name: "Image",
+        width: "140px",
+        //formatter: ReactDataGridPlugins.Formatters.ImageFormatter,
+        cell: (params) =>  (
                 <div className="cellWithImg">
-                    <img className="cellImg" src={params.row.imgTeam} alt="avatar" />
+                    <img className="cellImg" src={params.imgTeam} alt="avatar" />
                 </div>
-            );
-        }
+            )
     },
     {
-        field: "Name",
-        headerName: "Name",
-        width: 150,
-        editable: true,
-    },
-
-    {
-        field: "Post",
-        headerName: "Position",
-        width: 150,
+        selector: (row) => row.Name,
+        name: "Name",
+        width: "150px",
         editable: true,
     },
     {
-        field: "Facebook",
-        headerName: "Facebook",
-        width: 160,
+        selector: (row) => row.Post,
+        name: "Position",
+        width: "150px",
         editable: true,
     },
     {
-        field: "Instagram",
-        headerName: "Instagram",
-        width: 160,
+        selector: (row) => row.Facebook,
+        name: "Facebook",
+        width: "150px",
         editable: true,
     },
     {
-        field: "Twitter",
-        headerName: "Twitter",
-        width: 160,
+        selector: (row) => row.Instagram,
+        name: "Instagram",
+        width: "150px",
         editable: true,
     },
     {
-        field: "LinkedIn",
-        headerName: "LinkedIn",
-        width: 160,
+        selector: (row) => row.Twitter,
+        name: "Twitter",
+        width: "150px",
         editable: true,
     },
+    {
+        selector: (row) => row.LinkedIn,
+        name: "LinkedIn",
+        width: "150px",
+        editable: true,
+    }
 ];
