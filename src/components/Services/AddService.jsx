@@ -12,50 +12,60 @@ const AddServices =  () => {
 
     const  [name, setName] = useState("");
     const [img, setImg] = useState({});
-    const [url, setUrl] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
+    const [VectorUrl, setVectorUrl] = useState("");
     const [percentage, setPercentage] = useState(null);
-    const [vector, setVector] = useState("");
+    const [vector, setVector] = useState({});
     const [description, setDescription] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    let lstrUrl;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             setLoading(true);
-            const imgName = new Date().getTime() + img.name;
-            //const storageRef = ref(storage, name1);
-            const storageRef = ref(storage, 'images/' + imgName);
-            const uploadTask = uploadBytesResumable(storageRef, img);
-            uploadTask.on('state_changed',
+            const imgName2 = new Date().getTime() + vector.name;
+            const storageRef2 = ref(storage, 'images/' + imgName2);
+            const uploadTask2 = uploadBytesResumable(storageRef2, vector);
+
+            uploadTask2.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    //console.log('Upload is ' + progress + '% done');
                     setPercentage(progress);
-                    switch (snapshot.state) {
-                        case 'paused':
-                            //console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            //console.log('Upload is running');
-                            break;
-                        default:
-                            break;
-                    }
                 },
                 (error) => {
 
                 },
                 () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                        setUrl(downloadURL);
-                        await setDoc(doc(db, "services" , name), {
-                            Name: name,
-                            Description: description,
-                            Image:  downloadURL,
-                            Vector: vector
-                        });
+                    getDownloadURL(uploadTask2.snapshot.ref).then(async (downloadURL) => {
+                        lstrUrl = downloadURL;
+                        setVectorUrl(downloadURL.toString());
+                        const imgName = new Date().getTime() + img.name;
+                        const storageRef = ref(storage, 'images/' + imgName);
+                        const uploadTask = uploadBytesResumable(storageRef, img);
+
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                setPercentage(progress);
+                            },
+                            (error) => {
+
+                            },
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                                    setImgUrl(downloadURL.toString());
+                                    await setDoc(doc(db, "services" , name), {
+                                        Name: name,
+                                        Description: description,
+                                        Image:  downloadURL,
+                                        Vector: lstrUrl
+                                    });
+                                });
+                            }
+                        );
+
                     });
                     setLoading(false);
                     navigate('/Services');
@@ -89,10 +99,13 @@ const AddServices =  () => {
                                     <FloatingLabel controlId="floatingDescription" label="Description">
                                         <Form.Control required type="text" placeholder="Description" name="description" value={description} onChange={e=>setDescription(e.target.value)} />
                                     </FloatingLabel>
-                                    <FloatingLabel controlId="floatingVector" label="Vector">
-                                        <Form.Control required type="text" placeholder="Vector" name="linkedin" value={vector} onChange={e=>setVector(e.target.value)} />
-                                    </FloatingLabel>
-
+                                    {/*<FloatingLabel controlId="floatingVector" label="Vector">*/}
+                                    {/*    <Form.Control required type="text" placeholder="Vector" name="linkedin" value={vector} onChange={e=>setVector(e.target.value)} />*/}
+                                    {/*</FloatingLabel>*/}
+                                    <Form.Group className="mb-3" id="floatingVector" style={{width: '86%'}}>
+                                        <Form.Label>Vector</Form.Label>
+                                        <Form.Control required type="file" name="vector"  onChange={e=>setVector(e.target.files[0])} />
+                                    </Form.Group>
                                     <Form.Group className="mb-3" id="formImage" style={{width: '86%'}}>
                                         <Form.Label>Image</Form.Label>
                                         <Form.Control required type="file" name="image"  onChange={e=>setImg(e.target.files[0])} />

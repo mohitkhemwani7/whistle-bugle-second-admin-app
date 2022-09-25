@@ -1,24 +1,35 @@
 export const serviceColumns = [
     {
-        field: "Image",
-        headerName: "Image",
-        width: 150,
+        //selector: (row) => row.Image,
+        name: "Image",
+        width: "250px",
+        cell: (params) =>  (
+            <div className="cellWithImg">
+                <img className="cellImg" src={params.Image} alt="avatar" />
+            </div>
+        )
+
     },
 
     {
-        field: "Name",
-        headerName: "Name",
-        width: 150,
+        selector: (row) => row.Name,
+        name: "Name",
+        width: "250px",
     },
     {
-        field: "Description",
-        headerName: "Description",
-        width: 160,
+        selector: (row) => row.Description,
+        name: "Description",
+        width: "260px",
     },
     {
-        field: "Vector",
-        headerName: "Vector",
-        width: 160,
+        //selector: (row) => row.Vector,
+        name: "Vector",
+        width: "260px",
+        cell: (params) =>  (
+            <div className="cellWithImg">
+                <img className="cellImg" src={params.Vector} alt="avatar" />
+            </div>
+        )
     },
 
 ];

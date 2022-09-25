@@ -2,14 +2,15 @@ import React, {useEffect, useState} from "react";
 import {collection, deleteDoc, doc, getDocs} from "firebase/firestore";
 import {db} from "../../firebase";
 import Header from "../Header/Header";
-import {Link} from "react-router-dom";
-import {DataGrid} from "@mui/x-data-grid";
+import {Link, useNavigate} from "react-router-dom";
+import DataTable from "react-data-table-component";
 import {whyusColumns} from './whyusTableSource';
 
 const WhyUs = () => {
 
     const [info , setInfo] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     useEffect( ()=>{
         const Fetchdata = async () => {
             setLoading(true);
@@ -35,16 +36,16 @@ const WhyUs = () => {
         }
     };
 
-    const handleUpdate = (id) => {
-        db.collection("users").doc(doc.id).update({foo: "bar"});
+    const handleUpdate = (data) => {
+        navigate('/WhyUs/Update', {state: data})
     }
 
     const actionColumn = [
         {
-            field: "action",
-            headerName: "Action",
+            //field: "action",
+            name: "Action",
             width: 200,
-            renderCell: (params) => {
+            cell: (params) => {
                 return (
                     <div className="cellAction">
                         {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
@@ -52,9 +53,12 @@ const WhyUs = () => {
                         {/*         // onClick={()=> handleDelete(params.row.id)}*/}
                         {/*    >Update</div>*/}
                         {/*</Link>*/}
+                        <div className="viewButton"
+                             onClick={()=> handleUpdate(params)}
+                        >Update</div>
                         <div
                             className="deleteButton"
-                            onClick={() => handleDelete(params.row.id)}
+                            onClick={() => handleDelete(params.id)}
                         >
                             Delete
                         </div>
@@ -78,13 +82,10 @@ const WhyUs = () => {
                                 Add New
                             </Link>
                         </div>
-                        <DataGrid
-                            className="datagrid"
-                            rows={info}
+                        <DataTable
+                            title="WhyUs Section"
+                            data={info}
                             columns={whyusColumns.concat(actionColumn)}
-                            pageSize={9}
-                            rowsPerPageOptions={[9]}
-                            localeText={{}}
                         />
                     </div>
                 </>)}

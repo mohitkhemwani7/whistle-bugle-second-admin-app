@@ -7,7 +7,7 @@ import {Col, FloatingLabel, Form, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import {Link, useLocation, useNavigate} from 'react-router-dom'
-import {DataGrid} from "@mui/x-data-grid";
+import DataTable from "react-data-table-component";
 import {subServiceColumns} from "./subServiceTableSource";
 
 const UpdateServices =  () => {
@@ -48,10 +48,9 @@ const UpdateServices =  () => {
 
     const actionColumn = [
         {
-            field: "action",
-            headerName: "Action",
-            width: 200,
-            renderCell: (params) => {
+            name: "Action",
+            width: "200px",
+            cell: (params) => {
                 return (
                     <div className="cellAction">
                         {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
@@ -61,7 +60,7 @@ const UpdateServices =  () => {
                         {/*</Link>*/}
                         <div
                             className="deleteButton"
-                            onClick={() => handleDeleteSubService(params.row.id)}
+                            onClick={() => handleDeleteSubService(params.id)}
                         >
                             Delete
                         </div>
@@ -141,9 +140,12 @@ const UpdateServices =  () => {
                             <Col xs={6}>
                                 <p style={{color: "red"}}>Note: All fields are required. Please enter all fields.</p>
                                 <Form onSubmit={handleUpdate}>
-                                    <FloatingLabel controlId="floatingInput" label="Name" className="mb-3">
-                                        <Form.Control required type="text"  placeholder="Name" name="name" value={name} onChange={e=>setName(e.target.value)} />
-                                    </FloatingLabel>
+                                    {/*<FloatingLabel controlId="floatingInput" label="Name" className="mb-3">*/}
+                                    {/*    <h3></h3>*/}
+                                    {/*    <Form.Control required type="text"  placeholder="Name" name="name" value={name} onChange={e=>setName(e.target.value)} />*/}
+                                    {/*</FloatingLabel>*/}
+                                    <div className="text-center"><h5>Name: {name}</h5>
+                                    </div>
                                     <FloatingLabel controlId="floatingDescription" label="Description">
                                         <Form.Control required type="text" placeholder="Description" name="description" value={description} onChange={e=>setDescription(e.target.value)} />
                                     </FloatingLabel>
@@ -169,6 +171,7 @@ const UpdateServices =  () => {
                         </Row>
                     </Container>
 
+                    <Container className="mt-4">
                     <div className="datatable">
                         <div className="datatableTitle">
                             {/*<Link to="/SubServices/Add" className="link">*/}
@@ -178,15 +181,12 @@ const UpdateServices =  () => {
                                 navigate('/SubServices/Add', {state: location.state.id})
                             }}>Add New SubService</Button>
                         </div>
-                        <DataGrid
-                            className="datagrid"
-                            rows={info}
+                        <DataTable
+                            data={info}
                             columns={subServiceColumns.concat(actionColumn)}
-                            pageSize={9}
-                            rowsPerPageOptions={[9]}
                         />
                     </div>
-
+                    </Container>
                 </>)}
         </div>
     )

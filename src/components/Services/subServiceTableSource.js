@@ -1,19 +1,19 @@
 export const subServiceColumns = [
     {
-        field: "Image",
-        headerName: "Image",
-        width: 150,
+        selector: (row) => row.Image,
+        name: "Image",
+        width: "250px",
     },
 
     {
-        field: "Name",
-        headerName: "Name",
-        width: 150,
+        selector: (row) => row.Name,
+        name: "Name",
+        width: "250px",
     },
     {
-        field: "Description",
-        headerName: "Description",
-        width: 160,
+        selector: (row) => row.Description,
+        name: "Description",
+        width: "300px",
     }
 
 ];

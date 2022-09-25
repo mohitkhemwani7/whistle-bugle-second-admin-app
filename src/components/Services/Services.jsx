@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {collection, deleteDoc, doc, getDocs} from "firebase/firestore";
 import {db} from "../../firebase";
-import Container from "react-bootstrap/Container";
-import {Col, Row} from "react-bootstrap";
 import Header from "../Header/Header";
 import {Link, useNavigate} from "react-router-dom";
-import {DataGrid} from "@mui/x-data-grid";
+import DataTable from "react-data-table-component";
 import {serviceColumns} from "./servicetableSource";
 
 const Services = () => {
@@ -45,20 +43,18 @@ const Services = () => {
 
     const actionColumn = [
         {
-            field: "action",
-            headerName: "Action",
-            width: 200,
-            renderCell: (params) => {
+            //field: "action",
+            name: "Action",
+            width: "200px",
+            cell: (params) => {
                 return (
                     <div className="cellAction">
-                        {/*<Link to="/AddTeam" style={{ textDecoration: "none" }}>*/}
                             <div className="viewButton"
-                                 onClick={()=> handleUpdate(params.row)}
+                                 onClick={()=> handleUpdate(params)}
                             >Update</div>
-                        {/*</Link>*/}
                         <div
                             className="deleteButton"
-                            onClick={() => handleDelete(params.row.id)}
+                            onClick={() => handleDelete(params.id)}
                         >
                             Delete
                         </div>
@@ -86,12 +82,9 @@ const Services = () => {
                                 Add New
                             </Link>
                         </div>
-                        <DataGrid
-                            className="datagrid"
-                            rows={info}
+                        <DataTable
+                            data={info}
                             columns={serviceColumns.concat(actionColumn)}
-                            pageSize={9}
-                            rowsPerPageOptions={[9]}
                         />
                     </div>
                 </>)}

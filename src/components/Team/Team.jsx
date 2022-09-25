@@ -3,12 +3,9 @@ import {db} from '../../firebase';
 import { useState } from 'react';
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./team.css";
-import  DataGrid  from "react-data-grid";
 import { userColumns } from "../../datatableource";
 import DataTable from "react-data-table-component";
 import 'react-data-grid/lib/styles.css';
-// import 'react-data-grid/lib'
-// import * as ReactDataGridPlugins from 'react-data-grid/addons';
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../Header/Header";
 import '../Main/main.css';
@@ -131,14 +128,9 @@ const Team = () => {
                     {/*}}>Add Team</div>*/}
                 </div>
                 <DataTable
-                    //rowKeyGetter={(row) => row.id || ''}
-                    //className="datagrid"
                     title="Team Members"
                     data={info}
                     columns={userColumns.concat(actionColumn)}
-                    //pageSize={9}
-                    //rowsPerPageOptions={[9]}
-
                 />
             </div>
         </>)}

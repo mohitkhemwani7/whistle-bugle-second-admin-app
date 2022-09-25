@@ -1,19 +1,19 @@
 export const whyusColumns = [
     {
-        field: "Title",
-        headerName: "Title",
-        width: 300,
+        selector: (row) => row.Title,
+        name: "Title",
+        width: "300px",
     },
 
     {
-        field: "SubTitle",
-        headerName: "SubTitle",
-        width: 300,
+        selector: (row) => row.SubTitle,
+        name: "SubTitle",
+        width: "300px",
     },
     {
-        field: "Description",
-        headerName: "Description",
-        width: 500,
+        selector: (row) => row.Description,
+        name: "Description",
+        width: "500px",
     },
 
 ];
